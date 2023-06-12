@@ -28,7 +28,7 @@ const getData = (data) => {
 
 // 哔哩哔哩热门榜
 bilibiliRouter.get("/bilibili", async (ctx) => {
-  console.log("获取哔哩哔哩热门榜");
+  console.log("Get The New York Times Top Stories");
   try {
     // 从缓存中获取数据
     let data = await get(cacheKey);
@@ -45,9 +45,9 @@ bilibiliRouter.get("/bilibili", async (ctx) => {
     }
     ctx.body = {
       code: 200,
-      message: "获取成功",
-      title: "哔哩哔哩",
-      subtitle: "热门榜",
+      message: "Get Success",
+      title: "The New York Times",
+      subtitle: "Top Stories",
       from,
       total: data.length,
       updateTime,
@@ -57,29 +57,29 @@ bilibiliRouter.get("/bilibili", async (ctx) => {
     console.error(error);
     ctx.body = {
       code: 500,
-      title: "哔哩哔哩",
-      subtitle: "热门榜",
+      title: "The New York Times",
+      subtitle: "Top Stories",
       message: "哔哩哔哩热门榜获取失败",
     };
   }
 });
 
-// 哔哩哔哩热门榜 - 获取最新数据
+// 获取最新数据
 bilibiliRouter.get("/bilibili/new", async (ctx) => {
-  console.log("获取哔哩哔哩热门榜 - 最新数据");
+  console.log("Get The New York Times - 最新数据");
   try {
     // 从服务器拉取最新数据
     const response = await axios.get(url);
     const newData = getData(response.data.results);
     updateTime = new Date().toISOString();
-    console.log("从服务端重新获取哔哩哔哩热门榜");
+    console.log("从服务端重新获取The New York Times Top Stories");
 
     // 返回最新数据
     ctx.body = {
       code: 200,
-      message: "获取成功",
-      title: "哔哩哔哩",
-      subtitle: "热门榜",
+      message: "Get Success",
+      title: "The New York Times",
+      subtitle: "Top Stories",
       total: newData.length,
       updateTime,
       data: newData,
@@ -96,9 +96,9 @@ bilibiliRouter.get("/bilibili/new", async (ctx) => {
     if (cachedData) {
       ctx.body = {
         code: 200,
-        message: "获取成功",
-        title: "哔哩哔哩",
-        subtitle: "热门榜",
+        message: "Get Success",
+        title: "The New York Times",
+        subtitle: "Top Stories",
         total: cachedData.length,
         updateTime,
         data: cachedData,
@@ -107,9 +107,9 @@ bilibiliRouter.get("/bilibili/new", async (ctx) => {
       // 如果缓存中也没有数据，则返回错误信息
       ctx.body = {
         code: 500,
-        title: "哔哩哔哩",
-        subtitle: "热门榜",
-        message: "获取失败",
+        title: "The New York Times",
+        subtitle: "Top Stories",
+        message: "Get Failed",
       };
     }
   }
