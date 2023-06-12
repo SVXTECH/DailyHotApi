@@ -20,7 +20,6 @@ const getData = (data) => {
       title: v.title,
       desc: v.abstract,
       owner: v.byline,
-      hot: v.stat.view,
       url: v.short_url,
     };
   });
