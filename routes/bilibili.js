@@ -21,6 +21,7 @@ const getData = (data) => {
       desc: v.abstract,
       owner: v.byline,
       url: v.url,
+      mobileUrl: v.url,
     };
   });
 };
