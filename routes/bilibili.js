@@ -10,22 +10,18 @@ const cacheKey = "bilibiliData";
 let updateTime = new Date().toISOString();
 
 // 调用路径
-const url = "https://api.bilibili.com/x/web-interface/ranking/v2";
+const url = "https://api.nytimes.com/svc/topstories/v2/world.json?api-key=dQ9zGkIdWneLw4X4gmMcdlz4H2AYjmU1";
 
 // 数据处理
 const getData = (data) => {
   if (!data) return [];
   return data.map((v) => {
     return {
-      id: v.bvid,
       title: v.title,
-      desc: v.desc,
-      pic: v.pic.replace(/http:/, "https:"),
-      owner: v.owner,
-      data: v.stat,
+      desc: v.abstract,
+      owner: v.byline,
       hot: v.stat.view,
-      url: v.short_link_v2 || `https://b23.tv/${v.bvid}`,
-      mobileUrl: `https://m.bilibili.com/video/${v.bvid}`,
+      url: v.short_url,
     };
   });
 };
