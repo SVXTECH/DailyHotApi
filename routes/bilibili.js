@@ -16,25 +16,13 @@ const url = "https://api.nytimes.com/svc/topstories/v2/world.json?api-key=dQ9zGk
 const getData = (data) => {
   if (!data) return [];
   return data.map((v) => {
-    // return {
-    //   title: v.title,
-    //   desc: v.abstract,
-    //   owner: v.byline,
-    //   url: v.short_url,
-    // };
-  // });
-  try {
     return {
       title: v.title,
       desc: v.abstract,
       owner: v.byline,
       url: v.url,
     };
-  } catch (err) {
-    console.error(err);
-    return null;
-  }
-}).filter(item => item !== null);
+  });
 };
 
 // 哔哩哔哩热门榜
@@ -49,7 +37,7 @@ bilibiliRouter.get("/bilibili", async (ctx) => {
       console.log("从服务端重新获取哔哩哔哩热门榜");
       // 从服务器拉取数据
       const response = await axios.get(url);
-      data = getData(response.data.data.list);
+      data = getData(response.data.results);
       updateTime = new Date().toISOString();
       // 将数据写入缓存
       await set(cacheKey, data);
@@ -81,7 +69,7 @@ bilibiliRouter.get("/bilibili/new", async (ctx) => {
   try {
     // 从服务器拉取最新数据
     const response = await axios.get(url);
-    const newData = getData(response.data.data.list);
+    const newData = getData(response.data.results);
     updateTime = new Date().toISOString();
     console.log("从服务端重新获取哔哩哔哩热门榜");
 
