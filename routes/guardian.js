@@ -10,7 +10,7 @@ const cacheKey = "guardianData";
 let updateTime = new Date().toISOString();
 
 // 调用路径
-const url = "https://content.guardianapis.com/search?&show-fields=headline&api-key=1332b9c7-d878-4244-820e-46d796d34496";
+const url = "https://content.guardianapis.com/search?&show-fields=headline&page-size=50&api-key=1332b9c7-d878-4244-820e-46d796d34496";
 
 // 数据处理
 const getData = (data) => {
