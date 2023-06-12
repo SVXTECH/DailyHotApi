@@ -16,13 +16,25 @@ const url = "https://api.nytimes.com/svc/topstories/v2/world.json?api-key=dQ9zGk
 const getData = (data) => {
   if (!data) return [];
   return data.map((v) => {
+    // return {
+    //   title: v.title,
+    //   desc: v.abstract,
+    //   owner: v.byline,
+    //   url: v.short_url,
+    // };
+  // });
+  try {
     return {
       title: v.title,
       desc: v.abstract,
       owner: v.byline,
-      url: v.short_url,
+      url: v.url,
     };
-  });
+  } catch (err) {
+    console.error(err);
+    return null;
+  }
+}).filter(item => item !== null);
 };
 
 // 哔哩哔哩热门榜
