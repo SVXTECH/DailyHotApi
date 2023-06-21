@@ -4,7 +4,7 @@ const axios = require("axios");
 const { get, set, del } = require("../utils/cacheData");
 
 // 缓存键名
-const cacheKey = "bilibiliData";
+const cacheKey = "nytimesData";
 
 // 调用时间
 let updateTime = new Date().toISOString();
@@ -26,8 +26,8 @@ const getData = (data) => {
   });
 };
 
-// 哔哩哔哩热门榜
-bilibiliRouter.get("/bilibili", async (ctx) => {
+// The New York Times Top Stories
+nytimesRouter.get("/nytimes", async (ctx) => {
   console.log("Get The New York Times Top Stories");
   try {
     // 从缓存中获取数据
@@ -65,7 +65,7 @@ bilibiliRouter.get("/bilibili", async (ctx) => {
 });
 
 // 获取最新数据
-bilibiliRouter.get("/bilibili/new", async (ctx) => {
+bilibiliRouter.get("/nytimes/new", async (ctx) => {
   console.log("Get The New York Times - 最新数据");
   try {
     // 从服务器拉取最新数据
@@ -115,4 +115,4 @@ bilibiliRouter.get("/bilibili/new", async (ctx) => {
   }
 });
 
-module.exports = bilibiliRouter;
+module.exports = nytimesRouter;
