@@ -1,5 +1,5 @@
 const Router = require("koa-router");
-const bilibiliRouter = new Router();
+const gnewsRouter = new Router();
 const axios = require("axios");
 const { get, set, del } = require("../utils/cacheData");
 
