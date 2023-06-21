@@ -65,7 +65,7 @@ nytimesRouter.get("/nytimes", async (ctx) => {
 });
 
 // 获取最新数据
-bilibiliRouter.get("/nytimes/new", async (ctx) => {
+nytimesRouter.get("/nytimes/new", async (ctx) => {
   console.log("Get The New York Times - 最新数据");
   try {
     // 从服务器拉取最新数据
