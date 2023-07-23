@@ -17,61 +17,60 @@ const cacheKey = "yonhapData";
 let updateTime = new Date().toISOString();
 
 // 调用路径
-const url = "https://m.yna.co.kr/news";
+const url = "https://www.yna.co.kr/news";
 const headers = {
   "User-Agent":
-    "Mozilla/5.0 (iPhone; CPU iPhone OS 15_0 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/15.0 Mobile/15E148 Safari/604.1",
+    "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36",
 };
 
 // 数据处理
-// const getData = (data) => {
-//     if (!data) return [];
-//     const dataList = [];
-//     try {
-//       const pattern =
-//         /<script id="js-initialData" type="text\/json">(.*?)<\/script>/;
-//       const matchResult = data.match(pattern);
-//       const jsonObject = JSON.parse(matchResult[1]).initialState.topstory.hotList;
-//       jsonObject.forEach((v) => {
-//         dataList.push({
-//           title: v.target.titleArea.text,
-//           desc: v.target.excerptArea.text,
-//           pic: v.target.imageArea.url,
-//           hot: parseInt(v.target.metricsArea.text.replace(/[^\d]/g, "")) * 10000,
-//           url: v.target.link.url,
-//           mobileUrl: v.target.link.url,
-//         });
-//       });
-//       return dataList;
-//     } catch (error) {
-//       console.error("数据处理出错" + error);
-//       return false;
-//     }
-//   };
-
-  const getData = (data) => {
-    const newData = [];
-    const regex = /<li>\s*<div class="item-box01">\s*<a href="(.*?)">\s*<figure class="img-con">\s*<span class="img img-cover"><img src="(.*?)" alt="(.*?)"><\/span>\s*<\/figure>\s*<div class="news-con">\s*<div class="tit-wrap">\s*<strong class="tit-news">(.*?)<\/strong>\s*<span class="txt-time">(.*?)<\/span>\s*<\/div>\s*<\/div>\s*<\/a>\s*<\/div>\s*<\/li>/g;
-    let match;
-  
-    while ((match = regex.exec(data)) !== null) {
-      const url = match[1];
-      const imageUrl = match[2];
-      const altText = match[3];
-      const title = match[4];
-      const time = match[5];
-  
-      newData.push({
-        url,
-        imageUrl,
-        altText,
-        title,
-        time,
+const getData = (data) => {
+    if (!data) return false;
+    const dataList = [];
+    const $ = cheerio.load(data);
+    try {
+      $(".item-box01").each(function () {
+        dataList.push({
+          title: $(this).find(".tit-news").text(),
+          img: $(this).find("img").attr("src"),
+          time: $(this).find(".txt-time").text(),
+          // Add other properties you want to extract
+          // type: $(this).text(),
+          // typeName: type,
+          // hot: Number($(this).find(".review-num").text().replace(/\D/g, "")),
+          url: replaceLink($(this).find("a").attr("href")),
+          mobileUrl: $(this).find("a").attr("href"),
+        });
       });
+      return dataList;
+    } catch (error) {
+      console.error("数据处理出错" + error);
+      return false;
     }
+};
+
+//   const getData = (data) => {
+//     const newData = [];
+//     const regex = /<li>\s*<div class="item-box01">\s*<a href="(.*?)">\s*<figure class="img-con">\s*<span class="img img-cover"><img src="(.*?)" alt="(.*?)"><\/span>\s*<\/figure>\s*<div class="news-con">\s*<div class="tit-wrap">\s*<strong class="tit-news">(.*?)<\/strong>\s*<span class="txt-time">(.*?)<\/span>\s*<\/div>\s*<\/div>\s*<\/a>\s*<\/div>\s*<\/li>/g;
+//     let match;
   
-    return newData;
-  };
+//     while ((match = regex.exec(data)) !== null) {
+//       const url = match[1];
+//       const imageUrl = match[2];
+//       const altText = match[3];
+//       const title = match[4];
+//       const time = match[5];
+  
+//       newData.push({
+//         url,
+//         imageUrl,
+//         altText,
+//         title,
+//         time,
+//       });
+//     }
+//     return newData;
+//   };
 
 // IT之家热榜
 yonhapRouter.get("/yonhap", async (ctx) => {
