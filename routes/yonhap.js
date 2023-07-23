@@ -35,15 +35,15 @@ const getData = (data) => {
         .map((v) => {
           console.log($(v));
           dataList.push({
-            title: $(this).find(".tit-news").text(),
-            img: $(this).find("img").attr("src"),
-            time: $(this).find(".txt-time").text(),
+            title: $(v).find(".tit-news").text(),
+            img: $(v).find("img").attr("src"),
+            time: $(v).find(".txt-time").text(),
             // Add other properties you want to extract
             // type: $(this).text(),
             // typeName: type,
             // hot: Number($(this).find(".review-num").text().replace(/\D/g, "")),
-            url: replaceLink($(this).find("a").attr("href")),
-            mobileUrl: $(this).find("a").attr("href"),
+            url: replaceLink($(v).find("a").attr("href")),
+            mobileUrl: $(v).find("a").attr("href"),
           });
         });
       });
