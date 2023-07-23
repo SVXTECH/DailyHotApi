@@ -25,52 +25,34 @@ const headers = {
 
 // 数据处理
 const getData = (data) => {
-    if (!data) return false;
-    const dataList = [];
-    const $ = cheerio.load(data);
-    try {
-      $(".item-box01").each(function () {
-        dataList.push({
-          title: $(this).find(".tit-news").text(),
-          img: $(this).find("img").attr("src"),
-          time: $(this).find(".txt-time").text(),
-          // Add other properties you want to extract
-          // type: $(this).text(),
-          // typeName: type,
-          // hot: Number($(this).find(".review-num").text().replace(/\D/g, "")),
-          url: replaceLink($(this).find("a").attr("href")),
-          mobileUrl: $(this).find("a").attr("href"),
+  if (!data) return false;
+  const dataList = [];
+  const $ = cheerio.load(data);
+  try {
+    $(".item-box01").each(function () {
+      cheerio
+        .get()
+        .map((v) => {
+          console.log($(v));
+          dataList.push({
+            title: $(this).find(".tit-news").text(),
+            img: $(this).find("img").attr("src"),
+            time: $(this).find(".txt-time").text(),
+            // Add other properties you want to extract
+            // type: $(this).text(),
+            // typeName: type,
+            // hot: Number($(this).find(".review-num").text().replace(/\D/g, "")),
+            url: replaceLink($(this).find("a").attr("href")),
+            mobileUrl: $(this).find("a").attr("href"),
+          });
         });
       });
-      return dataList;
-    } catch (error) {
-      console.error("数据处理出错" + error);
-      return false;
-    }
+    return dataList;
+  } catch (error) {
+    console.error("数据处理出错" + error);
+    return false;
+  }
 };
-
-//   const getData = (data) => {
-//     const newData = [];
-//     const regex = /<li>\s*<div class="item-box01">\s*<a href="(.*?)">\s*<figure class="img-con">\s*<span class="img img-cover"><img src="(.*?)" alt="(.*?)"><\/span>\s*<\/figure>\s*<div class="news-con">\s*<div class="tit-wrap">\s*<strong class="tit-news">(.*?)<\/strong>\s*<span class="txt-time">(.*?)<\/span>\s*<\/div>\s*<\/div>\s*<\/a>\s*<\/div>\s*<\/li>/g;
-//     let match;
-  
-//     while ((match = regex.exec(data)) !== null) {
-//       const url = match[1];
-//       const imageUrl = match[2];
-//       const altText = match[3];
-//       const title = match[4];
-//       const time = match[5];
-  
-//       newData.push({
-//         url,
-//         imageUrl,
-//         altText,
-//         title,
-//         time,
-//       });
-//     }
-//     return newData;
-//   };
 
 // IT之家热榜
 yonhapRouter.get("/yonhap", async (ctx) => {
